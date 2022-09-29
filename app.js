@@ -10,12 +10,12 @@ const registration = require('./routes/registration')
 const LOGIN = require('./routes/SignIn')
 const forgot = require('./routes/forgotpassword')
 const profile = require('./routes/profile')
-
+const createOpaMiddleware = require('./middleware/opa')
 
 const app = express();
 app.use(express.json())
 app.use(cors())
-
+const hasPermission = createOpaMiddleware("http://localhost:8181")
 
 mongoose.connect("mongodb://127.0.0.1:27017/aionco")
     .then(() => {
@@ -40,7 +40,12 @@ app.use((req, res, next) => {
         "GET, POST, OPTIONS");
     next();
 });
-
+app.get('/orders/:id', hasPermission('read', 'order'), (req, res) => {
+    res.json({ message: `you can read order with id ${req.params.id}` })
+})
+app.post('/orders', hasPermission('create', 'order'), (req, res) => {
+    res.json({ message: `you can create order` })
+})
 app.use("/register", registration);
 app.use("/sign", LOGIN);
 app.use("/forgot", forgot)
