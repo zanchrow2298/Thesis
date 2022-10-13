@@ -16,6 +16,7 @@ const registrationSchema = mongoose.Schema({
     
 });
 
+
 registrationSchema.pre('save', async function (next) {
     try {
         if (!this.isModified('password')) {

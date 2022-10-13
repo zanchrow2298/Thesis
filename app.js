@@ -6,11 +6,14 @@ const cors = require('cors');
 
 
 
-const registration = require('./routes/registration')
-const LOGIN = require('./routes/SignIn')
-const forgot = require('./routes/forgotpassword')
-const profile = require('./routes/profile')
+const registration = require('./routes/User/registration')
+const LOGIN = require('./routes/User/SignIn')
+const forgot = require('./routes/User/forgotpassword')
+const profile = require('./routes/User/profile')
 const createOpaMiddleware = require('./middleware/opa')
+const upload = require('./routes/User/s3-bucket')
+const newuser = require('./routes/adminroutes/admin')
+
 
 const app = express();
 app.use(express.json())
@@ -46,10 +49,15 @@ app.get('/orders/:id', hasPermission('read', 'order'), (req, res) => {
 app.post('/orders', hasPermission('create', 'order'), (req, res) => {
     res.json({ message: `you can create order` })
 })
+
+
 app.use("/register", registration);
 app.use("/sign", LOGIN);
 app.use("/forgot", forgot)
 app.use("/profile", profile)
+app.use("/api",upload)
+app.use("/admin",newuser)
+
 
 
 module.exports = app;

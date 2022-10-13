@@ -10,16 +10,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "2": "^3.0.0",
     "@open-policy-agent/opa-wasm": "^1.8.0",
+    "aws-config": "^1.4.0",
+    "aws-sdk": "^2.553.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.10.0",
     "mongoose": "^6.5.2",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^2.9.0",
     "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
+    "uuid": "^9.0.0",
     "validator": "^13.7.0"
   }
 }
