@@ -1,17 +1,35 @@
 const express = require('express')
 const router = express.Router()
 const NEWUSER = require('../../controller/admin/adduser')
-const GETALL = require('../../controller/admin/getalladmin')
+const SEARCH = require('../../controller/admin/search')
 const EDITUSER = require('../../controller/admin/edituser')
+const ADMIN = require('../../controller/admin/admin')
 
+router.post('/loginadmin',ADMIN.login)
 
 router.post('/newuser', NEWUSER.adduser);
 
-router.get('/getall',GETALL.getall)
+router.get('/getall',SEARCH.getall)
 
 router.patch('/edituser/:_id',EDITUSER.edituser)
 
-router.get('/search/:fName',GETALL.search)
+router.patch('/editadmin/:_id',EDITUSER.editadmin)
+
+router.get('/search/:fName',SEARCH.search)
+
+router.get('/getuser/:_id',SEARCH.getbyID)
+
+router.get('/page/:pageNo/:pageSize', SEARCH.page)
+
+router.get('/pageadmin/:pageNo/:pageSize', SEARCH.pageadmin)
+
+router.get('/search/:search/:pageno/:total',SEARCH.page1)
+
+router.post('/register',ADMIN.adduser)
+
+
+
+
 
 
 

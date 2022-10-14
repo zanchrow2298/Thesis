@@ -2,8 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const registration = require('../../models/registration');
-
+const ADMIN = require('../../models/Admin');
 
 
 //JWT LOGIN
@@ -19,7 +18,7 @@ exports.login = async (req,res) => {
             res.status(400).send("All input is required");
           }
         // Validate if user exist in our database
-        const user = await registration.findOne({ email });
+        const user = await ADMIN.findOne({ email });
 
         if (user.status == "Active") {
             
@@ -37,7 +36,7 @@ exports.login = async (req,res) => {
                 // user
                 res.status(200).json({ token, user });
                 console.log(user)
-            }else {
+            } else {
                 token = null;
                 res.status(200).json({ message: "Invalid Credentials", token })
             }
@@ -48,5 +47,31 @@ exports.login = async (req,res) => {
         console.log(err);
     }
 
+}
+
+
+exports.adduser = async  (req, res) => {
+    const data = new user({
+        email : req.body.email,
+        fName : req.body.fName,
+        lName : req.body.lName,
+        password : req.body.password,
+        pNumber: req.body.pNumber,
+        date: req.body.date,
+        roles: req.body.roles,
+        status: req.body.status
+        
+        
+    })
+
+    try {
+        const dataToSave = await data.save();
+        console.log("Added Successfully")
+        res.status(200).json(dataToSave)
+    }
+    catch (error) {
+        console.log(1)
+        res.status(400).json({message: error.message})
+    }
 }
 

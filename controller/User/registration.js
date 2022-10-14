@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt')
 const User = require('../../models/registration')
 const mail = require('../../middleware/mail')
-var ObjectId = require('mongodb').ObjectID;
-const mongodb = require('mongodb')
+
+
 
 
 //Sending email through nodemailer @ mail.js
@@ -23,7 +23,7 @@ exports.email = async (req, res, next) => {
                     message: "Email is already in use."
                 });
             } else {
-                const link = "192.168.1.19:4200/create-pass"
+                const link = "192.168.1.10:4200/create-pass"
                 // const link = "34.217.78.210:4201/create-pass"
                 const user = await new User({
                     email: email
@@ -85,7 +85,7 @@ exports.profile = async (req, res, next) => {
         const date = req.body.date
 
         await User.findByIdAndUpdate(
-            _id, { $set: { fName: fName, lName: lName, pNumber: pNumber, date: date, status: "Completed" } }, { upsert: true })
+            _id, { $set: { fName: fName, lName: lName, pNumber: pNumber, date: date, status: "Active" } }, { upsert: true })
             .then(result => {
                 res.status(200).json({
                     result: "success",
