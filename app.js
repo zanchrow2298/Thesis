@@ -7,7 +7,7 @@ const cors = require('cors');
 
 
 const registration = require('./routes/User/registration')
-const LOGIN = require('./routes/User/SignIn')
+const LOGIN = require('./routes/User/signin')
 const forgot = require('./routes/User/forgotpassword')
 const profile = require('./routes/User/profile')
 const createOpaMiddleware = require('./middleware/opa')
