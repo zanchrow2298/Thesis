@@ -10,7 +10,7 @@ exports.edituser = async (req, res) => {
     const email = req.body.email
     const lName = req.body.lName
     const fName = req.body.fName
-    const password = req.body.password
+    let password = req.body.password
     const pNumber = req.body.pNumber
     const date = req.body.date
     const roles = req.body.roles
@@ -49,28 +49,33 @@ exports.edituser = async (req, res) => {
         }
     }else{
         try {
-            User.findByIdAndDelete(_id, async(err)=>{
-            const dataToSave = await data.save();
-            console.log("Added Successfully")
-            console.log("Deleted")
-            res.status(200).json(dataToSave)
+            await User.findOne({ email })
+            .then(async users=>{
+                password = users.password
+                console.log(password)
+                const dataToSave = await Admin.insertMany({email,lName,fName,pNumber,date,roles,status,password});
+                console.log(dataToSave)
+                User.findByIdAndDelete(_id, async(err)=>{
+                console.log("Added Successfully")
+                console.log("Deleted")
+                res.status(200).json(dataToSave)
             })
             
-        }
-        catch (error) {
+            })
+            }catch(error) {
             console.log(1)
             res.status(400).json({message: error.message})
-        }
-    }
+            }}}
+    
 
-    }
+    
 
     exports.editadmin = async (req, res) => {
         const _id = req.params._id
         const email = req.body.email
         const lName = req.body.lName
         const fName = req.body.fName
-        const password = req.body.password
+        let password = req.body.password
         const pNumber = req.body.pNumber
         const date = req.body.date
         const roles = req.body.roles
@@ -109,17 +114,17 @@ exports.edituser = async (req, res) => {
             }
         }else{
             try {
-                Admin.findByIdAndDelete(_id, async(err)=>{
-              const user1 =  Admin.findById({_id}, function (users){
-                        // password == users.password
-                        console.log(user1)
-                        const dataToSave = data.save();
-                        console.log("Added Successfully")
-                        console.log("Deleted")
-                        res.status(200).json(dataToSave)
-                    })
-               
-               
+                await Admin.findOne({ email })
+                .then(async users=>{
+                    password = users.password
+                    const dataToSave = await User.insertMany({email,lName,fName,pNumber,date,roles,status,password});
+                    console.log(dataToSave)
+                    Admin.findByIdAndDelete(_id, async(err)=>{
+                    console.log("Added Successfully")
+                    console.log("Deleted")
+                    res.status(200).json(dataToSave)
+                })
+                
                 })
                 
             }

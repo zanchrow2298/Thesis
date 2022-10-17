@@ -42,14 +42,13 @@ const upload = multer({
 });
 
 router.get('/export', function(req, res, next) {
-  var file = 'df.csv';
   console.log('Trying to download file', fileKey);
 
   var s3 = new AWS.S3({});
 
   var options = {
-      Bucket: 'your-bucket-name',
-      Key: file,
+      Bucket: 'aionco-s3-bucket',
+      Key: key
   };
 
   s3.getObject(options, function(err, data) {

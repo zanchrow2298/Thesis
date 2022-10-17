@@ -20,6 +20,7 @@ exports.login = async (req,res) => {
           }
         // Validate if user exist in our database
         const user = await registration.findOne({ email });
+        console.log("asdasdasd")
 
         if (user.status == "Active") {
             
