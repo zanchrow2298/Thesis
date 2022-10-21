@@ -4,7 +4,8 @@ const multerS3 = require('multer-s3');
 const dotenv = require('dotenv');
 const uuid = require('uuid')
 var awsConfig = require('aws-config');
-const express = require('express')
+const express = require('express');
+const { LexModelBuildingService } = require('aws-sdk');
 const router = express.Router();
 dotenv.config();
 
@@ -12,49 +13,36 @@ dotenv.config();
 aws.config.update({
   secretAccessKey: process.env.SECRET_ACCESS_KEY,
   accessKeyId: process.env.ACCESS_KEY_ID,
-  region: 'ap-southeast-1',
-  signatureVersion: 'v4'
+  region: process.env.AWS_REGION,
+  signatureVersion: process.env.AWS_SIGNATUREVERSION
 });
 
 const s3 = new aws.S3();
+//mimetype/ filter for the file to be uploaded, still trying to find the mimetype for fastq and bam bioinformatics
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  } else {
-    cb(new Error('Invalid file type, only JPEG and PNG is allowed!'), false);
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-fasta') {
+//     cb(null, true);
+//   } else {
+//     cb(new Error('Wrong file type'), false);
+//   }
+// };
 
 const upload = multer({
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
   storage: multerS3({
-    acl: 'private',
+    acl: process.env.AWS_ACL,
     s3,
-    bucket: 'aionco-s3-bucket',
+    bucket: process.env.AWS_BUCKET,
     key: function(req, file, cb) {
       console.log(1)
-      /*uuid to make sure my file has a unique name*/
-      req.file = uuid.v1() + file.originalname;
-      cb(null, uuid.v1() + file.originalname);
+      /*uuid to make sure the file has a unique name*/
+      req.file =/* uuid.v1() + */file.originalname.toLowerCase();
+      cb(null,/* uuid.v1() +*/file.originalname.toLowerCase());
     }
   })  
 });
 
-router.get('/export', function(req, res, next) {
-  console.log('Trying to download file', fileKey);
 
-  var s3 = new AWS.S3({});
-
-  var options = {
-      Bucket: 'aionco-s3-bucket',
-      Key: key
-  };
-
-  s3.getObject(options, function(err, data) {
-    res.attachment(file);
-    res.send(data.Body);
-});
-});
 
 module.exports = upload;

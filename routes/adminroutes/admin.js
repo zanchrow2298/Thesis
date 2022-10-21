@@ -21,7 +21,7 @@ router.get('/getuser/:_id',SEARCH.getbyID)
 
 router.get('/page/:pageNo/:pageSize', SEARCH.page)
 
-router.get('/pageadmin/:pageNo/:pageSize', SEARCH.pageadmin)
+router.get('/pageadmin/:adminpageNo/:adminpageSize', SEARCH.pageadmin)
 
 router.get('/search/:search/:pageno/:total',SEARCH.page1)
 
