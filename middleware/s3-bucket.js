@@ -35,13 +35,17 @@ const upload = multer({
     s3,
     bucket: process.env.AWS_BUCKET,
     key: function(req, file, cb) {
-      console.log(1)
+      // console.log(1)
       /*uuid to make sure the file has a unique name*/
       req.file =/* uuid.v1() + */file.originalname.toLowerCase();
       cb(null,/* uuid.v1() +*/file.originalname.toLowerCase());
     }
   })  
+  
+
 });
+
+
 
 
 

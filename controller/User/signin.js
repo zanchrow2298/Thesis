@@ -7,7 +7,7 @@ const registration = require('../../models/registration');
 
 
 //JWT LOGIN
-exports.login = async (req,res) => {
+exports.login = async (req, res) => {
 
     // Our login logic starts here
     try {
@@ -17,13 +17,13 @@ exports.login = async (req,res) => {
         // Validate user input
         if (!(email && password)) {
             res.status(400).send("All input is required");
-          }
+        }
         // Validate if user exist in our database
         const user = await registration.findOne({ email });
-        console.log("asdasdasd")
+
 
         if (user.status == "Active") {
-            
+
             if (user && (await bcrypt.compare(password, user.password))) {
                 // Create token
                 const token = jwt.sign(
@@ -38,7 +38,7 @@ exports.login = async (req,res) => {
                 // user
                 res.status(200).json({ token, user });
                 console.log(user)
-            }else {
+            } else {
                 token = null;
                 res.status(200).json({ message: "Invalid Credentials", token })
             }

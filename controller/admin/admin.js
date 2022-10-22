@@ -6,7 +6,7 @@ const ADMIN = require('../../models/Admin');
 
 
 //JWT LOGIN
-exports.login = async (req,res) => {
+exports.login = async (req, res) => {
 
     // Our login logic starts here
     try {
@@ -16,12 +16,12 @@ exports.login = async (req,res) => {
         // Validate user input
         if (!(email && password)) {
             res.status(400).send("All input is required");
-          }
+        }
         // Validate if user exist in our database
         const user = await ADMIN.findOne({ email });
 
         if (user.status == "Active") {
-            
+
             if (user && (await bcrypt.compare(password, user.password))) {
                 // Create token
                 const token = jwt.sign(
@@ -50,18 +50,18 @@ exports.login = async (req,res) => {
 }
 
 
-exports.adduser = async  (req, res) => {
+exports.adduser = async (req, res) => {
     const data = new user({
-        email : req.body.email,
-        fName : req.body.fName,
-        lName : req.body.lName,
-        password : req.body.password,
+        email: req.body.email,
+        fName: req.body.fName,
+        lName: req.body.lName,
+        password: req.body.password,
         pNumber: req.body.pNumber,
         date: req.body.date,
         roles: req.body.roles,
         status: req.body.status
-        
-        
+
+
     })
 
     try {
@@ -71,7 +71,7 @@ exports.adduser = async  (req, res) => {
     }
     catch (error) {
         console.log(1)
-        res.status(400).json({message: error.message})
+        res.status(400).json({ message: error.message })
     }
 }
 
