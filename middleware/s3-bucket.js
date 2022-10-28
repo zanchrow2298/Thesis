@@ -20,13 +20,20 @@ aws.config.update({
 const s3 = new aws.S3();
 //mimetype/ filter for the file to be uploaded, still trying to find the mimetype for fastq and bam bioinformatics
 
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-fasta') {
-//     cb(null, true);
-//   } else {
-//     cb(new Error('Wrong file type'), false);
-//   }
-// };
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'application/octet-stream' /*|| file.mimetype === 'application/x-fasta'*/) {
+    cb(null, true);
+  } else {
+    cb(new Error('Must be FASTQ or BAM file type only'), false);
+  }
+};
+var options = {
+  sslEnabled: true,
+  concurrentParts: 2,
+  waitTime: 20000,
+  retries: 2,
+  maxPartSize: 10 * 1024 * 1024
+};
 
 const upload = multer({
   // fileFilter: fileFilter,
@@ -39,14 +46,13 @@ const upload = multer({
       /*uuid to make sure the file has a unique name*/
       req.file =/* uuid.v1() + */file.originalname.toLowerCase();
       cb(null,/* uuid.v1() +*/file.originalname.toLowerCase());
-    }
+
+    },
+    options
   })  
   
 
 });
-
-
-
 
 
 module.exports = upload;

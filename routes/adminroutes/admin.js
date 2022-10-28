@@ -4,6 +4,7 @@ const NEWUSER = require('../../controller/admin/adduser')
 const SEARCH = require('../../controller/admin/search')
 const EDITUSER = require('../../controller/admin/edituser')
 const ADMIN = require('../../controller/admin/admin')
+const FILTER = require('../../controller/admin/filter')
 
 router.post('/loginadmin',ADMIN.login)
 
@@ -26,6 +27,8 @@ router.get('/pageadmin/:adminpageNo/:adminpageSize', SEARCH.pageadmin)
 router.get('/search/:search/:pageno/:total',SEARCH.page1)
 
 router.post('/register',ADMIN.adduser)
+
+router.post('/searchfilter/:PageNo',FILTER.searchfilter)
 
 
 

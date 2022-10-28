@@ -32,7 +32,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/aionco")
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -57,6 +56,7 @@ app.use("/forgot", forgot)
 app.use("/profile", profile)
 app.use("/api",upload)
 app.use("/admin",newuser)
+// app.use("/exp")
 
 
 

@@ -1,7 +1,7 @@
 const express = require ("express");
 const multer = require ("multer");
 
-
+//in progress avatar change feature
 const storage = multer.diskStorage({
     destination: (req, file, cb) =>  {
         cb(null, "data/uploads")
