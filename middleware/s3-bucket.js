@@ -44,8 +44,8 @@ const upload = multer({
     key: function(req, file, cb) {
       // console.log(1)
       /*uuid to make sure the file has a unique name*/
-      req.file =/* uuid.v1() + */file.originalname.toLowerCase();
-      cb(null,/* uuid.v1() +*/file.originalname.toLowerCase());
+      req.file =/* uuid.v1() + */file.originalname;
+      cb(null,/* uuid.v1() +*/file.originalname);
 
     },
     options

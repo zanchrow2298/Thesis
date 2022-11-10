@@ -30,7 +30,9 @@ router.post('/register',ADMIN.adduser)
 
 router.post('/searchfilter/:PageNo',FILTER.searchfilter)
 
+router.get('/filesearch/:FileName', SEARCH.filesearch)
 
+router.get('/getmongo/:pageNo',FILTER.GETMONGO)
 
 
 

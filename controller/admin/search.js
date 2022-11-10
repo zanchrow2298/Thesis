@@ -15,6 +15,7 @@ exports.getall = async function (req, res) {
   }).sort({ status: 'asc' });
 };
 
+//user search
 exports.search = async (req, res) => {
   // const email = req.params.email
   // const lName = req.params.lName
@@ -188,3 +189,17 @@ exports.delete = async (req, res) => {
   // exports.GETMONGOS3 = async(req,res)=>{
 
   // }
+
+  // Search function in mongodb
+  exports.filesearch = async (req, res) => {
+   
+  
+    try {
+      const FileName = req.body.filename
+      const objs = await FILE.find({ FileName: { $regex:filename , $options: 'i' } });
+      res.json(objs);
+    }
+    catch (error) {
+      res.json({ message: error });
+    }
+  }
