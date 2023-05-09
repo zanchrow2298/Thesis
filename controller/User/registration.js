@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const User = require('../../models/registration')
 const mail = require('../../middleware/mail')
+const ADMIN = require('../../models/Admin')
 
 
 
@@ -16,7 +17,7 @@ exports.email = async (req, res, next) => {
     } else {
 
         try {
-            const existingUser = await User.findOne({ email }).exec();
+            const existingUser = await ADMIN.findOne({ email }).exec();
             if (existingUser) {
                 return res.status(200).json({
                     result: "Failure",
@@ -24,8 +25,8 @@ exports.email = async (req, res, next) => {
                 });
             } else {
                 // const link = "192.168.1.10:4200/create-pass"
-                const link = "34.217.78.210:4201/create-pass"
-                const user = await new User({
+                const link = "13.229.126.192:4200/create-pass"
+                const user = await new ADMIN({
                     email: email
                 }).save();
                 mail(req.body.email, link)
@@ -57,7 +58,7 @@ exports.password = async (req, res, next) => {
                 .catch(err => {
                     console.log(err)
                 })
-            await User.findByIdAndUpdate(
+            await ADMIN.findByIdAndUpdate(
                 {_id}, { password }, {upsert: true, new: true })
                 .then(result => {
                     res.status(200).json({
@@ -84,7 +85,7 @@ exports.profile = async (req, res, next) => {
         const pNumber = req.body.pNumber
         const date = req.body.date
 
-        await User.findByIdAndUpdate(
+        await ADMIN.findByIdAndUpdate(
             _id, { $set: { fName: fName, lName: lName, pNumber: pNumber, date: date, status: "Active" } }, { upsert: true })
             .then(result => {
                 res.status(200).json({

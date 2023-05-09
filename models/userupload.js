@@ -11,8 +11,11 @@ const fileSchema = mongoose.Schema({
     end_date:{type:String},
     instructions:{type:String},
     fName:{type:String},
-    lName:{type:String}
+    lName:{type:String},
+    remarks:{type:String},
+    filename:{type:String},
+    grade:{type:Number}
 
     //output: {type: mongoose.Schema.Types.ObjectId, ref: "Output"}
 });
-module.exports = mongoose.model('fileupload', fileSchema);
+module.exports = mongoose.model('fileupload1', fileSchema);

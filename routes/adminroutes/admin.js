@@ -5,6 +5,9 @@ const SEARCH = require('../../controller/admin/search')
 const EDITUSER = require('../../controller/admin/edituser')
 const ADMIN = require('../../controller/admin/admin')
 const FILTER = require('../../controller/admin/filter')
+const ANNOUCEMENT = require('../../controller/admin/announcement')
+const upload = require('../../middleware/s3-bucket');
+const EDITGRADE = require('../../controller/admin/editgrade')
 
 router.post('/loginadmin',ADMIN.login)
 
@@ -34,8 +37,22 @@ router.get('/filesearch/:FileName', SEARCH.filesearch)
 
 router.get('/getmongo/:pageNo',FILTER.GETMONGO)
 
+router.get('/getsubject/:newprofile/:fName/:lName/:filename',FILTER.getbySubj);
 
+router.post('/announcement', upload.array('file',1),ANNOUCEMENT.annoucement, (req, res) => {
+    console.log(1)
+  
+      res.send({ file: req.file, message:"Successful" });
+    });
+  
+router.patch('/updateannouncement/:_id',ANNOUCEMENT.editannoucement);
 
+router.get('/announcement/:pageNo',ANNOUCEMENT.viewall)
 
+router.patch('/throwgrade/:fName/:lName/:FileName',EDITGRADE.grade)
+
+router.get('/getsubjectstudent/:newprofile/:FileName',FILTER.getbySubjstudent);
+
+router.get('/getsubjectstudent/:newprofile',FILTER.getbySubjstudentacctivity);
 
 module.exports = router;

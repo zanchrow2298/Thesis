@@ -13,7 +13,17 @@ const registrationSchema = mongoose.Schema({
     date: { type: String },
     code: {type:String},
     status: {type: String, default:"Inactive"},
-    roles: {type:String, default:"User"}
+    roles: {type:String, default:"User"},
+    AralingPanlipunan:{type:Number},
+    Math:{type:Number},
+    Science:{type:Number},
+    English:{type:Number},
+    Mapeh:{type:Number},
+    Tle:{type:Number},
+    Filipino:{type:Number},
+    Esp:{type:Number}
+
+
     
 });
 
